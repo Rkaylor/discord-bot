@@ -4,7 +4,7 @@ console.log(process.env.DISCORDJS_BOT_TOKEN);
 
 //Bot login function
 
-const { Client } = require('discord.js');
+const { Client, Message } = require('discord.js');
 const client = new Client();
 const PREFIX = "$";
 
@@ -13,7 +13,7 @@ client.on('ready', () =>{
     console.log(`${client.user.tag}`)
 });
 
-client.on('message', (message) => {
+client.on('message', async (message) => {
     if (message.author.bot) return; 
     if (message.content.startsWith(PREFIX)){
         const [CMD_NAME, ...args] = message.content
@@ -22,9 +22,29 @@ client.on('message', (message) => {
         .split(/\s+/);
         
         if(CMD_NAME === 'kick'){
-            message.channel.send('The User has bee kicked')
+            if (!message.member.hasPermission('KICK_MEMBERS'))
+            return message.reply('you dont have permissions')
+            if (args.length === 0) return message.reply('please provide an ID');
+            const member = message.guild.members.cache.get(args[0]);
+            if (member) {
+                member
+                .kick()
+                .then((member) => message.channel.send (`${member} was kcked.`))
+                .catch((err) => message.channel.send('I cant kick that user : ('));
+            } else {
+                message.channel.send('that member was not found ');
+            }
+        } else if (CMD_NAME === 'ban') {
+            if (!message.member.hasPermission('BAN_MEMBERS'))
+            return message.reply('you dont have permissions');
+            if (args.length === 0) return message.reply('please provide an ID');
+
+        try{
+            const user = await message.guild.members.ban(args[0])
+        }   catch (err){
+
         }
-        
+        }
     }
 });
 
