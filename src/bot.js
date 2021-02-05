@@ -53,15 +53,19 @@ client.on('message', async (message) => {
 client.on('messageReactionAdd', (reaction, user) => {
     const { name } = reaction.emoji;
     const member =reaction.message.guild.members.cache.get(user.id);
-    if (reaction.message.id === ''){
+    if (reaction.message.id === '807119319846223942'){
         switch(name){
             case '🍎':
+            member.roles.add("807119891546767381")
             break;
             case '🍌':
+            member.roles.add("807119950970880013")
             break;
             case '🍇':
+            member.roles.add("807119979396595764")
             break;
             case '🍑':
+            member.roles.add("807120031124029470")
             break;
             
         }
