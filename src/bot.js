@@ -4,10 +4,15 @@ console.log(process.env.DISCORDJS_BOT_TOKEN);
 
 //Bot login function
 
-const { Client } = require('discord.js');
+const { Client, WebhookClient } = require('discord.js');
 const client = new Client({
     partials: ['MESSAGE', 'REACTION']
 });
+
+const webhookClient = new WebhookClient(
+    process.env.WEBHOOK_ID,
+    process.env.WEBHOOK_TOKEN,
+);
 const PREFIX = "$";
 
 
@@ -48,12 +53,17 @@ client.on('message', async (message) => {
         }   catch (err){
             message.channel.send('an error occured.')
         }
+        } else if (CMD_NAME === 'announce'){
+            const msg = args.join(' ');
+            webhookClient.send(msg);
         }
     }
 });
 
 //Emoji Reacton Roles
 client.on('messageReactionAdd', (reaction, user) => {
+
+    console.log('Hello!')
     const { name } = reaction.emoji;
     const member = reaction.message.guild.members.cache.get(user.id);
     if (reaction.message.id === '807119319846223942'){
