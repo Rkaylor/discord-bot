@@ -41,11 +41,31 @@ client.on('message', async (message) => {
 
         try{
             const user = await message.guild.members.ban(args[0])
+            message.channel.send('User was banned succesfully')
         }   catch (err){
-
+            message.channel.send('an error occured.')
         }
         }
     }
 });
+
+//Emoji Reacton
+client.on('messageReactionAdd', (reaction, user) => {
+    const { name } = reaction.emoji;
+    const member =reaction.message.guild.members.cache.get(user.id);
+    if (reaction.message.id === ''){
+        switch(name){
+            case '🍎':
+            break;
+            case '🍌':
+            break;
+            case '🍇':
+            break;
+            case '🍑':
+            break;
+            
+        }
+    }
+})
 
 client.login(process.env.DISCORDJS_BOT_TOKEN)
