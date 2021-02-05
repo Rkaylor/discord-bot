@@ -4,9 +4,12 @@ console.log(process.env.DISCORDJS_BOT_TOKEN);
 
 //Bot login function
 
-const { Client, Message } = require('discord.js');
-const client = new Client();
+const { Client } = require('discord.js');
+const client = new Client({
+    partials: ['MESSAGE', 'REACTION']
+});
 const PREFIX = "$";
+
 
 client.on('ready', () =>{
     console.log('the bot has logged in.')
@@ -49,12 +52,12 @@ client.on('message', async (message) => {
     }
 });
 
-//Emoji Reacton
+//Emoji Reacton Roles
 client.on('messageReactionAdd', (reaction, user) => {
     const { name } = reaction.emoji;
-    const member =reaction.message.guild.members.cache.get(user.id);
+    const member = reaction.message.guild.members.cache.get(user.id);
     if (reaction.message.id === '807119319846223942'){
-        switch(name){
+        switch (name) {
             case '🍎':
             member.roles.add("807119891546767381")
             break;
@@ -70,6 +73,6 @@ client.on('messageReactionAdd', (reaction, user) => {
             
         }
     }
-})
+});
 
 client.login(process.env.DISCORDJS_BOT_TOKEN)
